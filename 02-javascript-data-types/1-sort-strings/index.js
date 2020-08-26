@@ -5,5 +5,14 @@
  * @returns {string[]}
  */
 export function sortStrings(arr, param = 'asc') {
+          if(param == 'asc'){
+             return arr.sort(new Intl.Collator(undefined , {caseFirst : "upper"}).compare).slice()
+          }
 
-}
+          else{
+             return arr.sort(new Intl.Collator(undefined , {caseFirst : "upper"}).compare).reverse().slice()
+          }
+        }
+              
+    
+     
