@@ -6,12 +6,12 @@
  */
 export function sortStrings(arr, param = 'asc') {
    const collator = new Intl.Collator(undefined, { caseFirst: "upper" })
-   const arrSort = arr.concat()
-   if (param == 'asc') {
+   const arrSort = [...arr]
+   if (param === 'asc') {
       return arrSort.sort(collator.compare)
    }
    else {
-      return arrSort.sort(collator.compare).reverse()
+      return arrSort.sort((a, b) => collator.compare(b, a))
    }
 }
 
