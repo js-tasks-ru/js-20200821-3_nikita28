@@ -5,13 +5,13 @@
  * @returns {object} - returns the new object
  */
 export const omit = (obj, ...fields) => {
-    const arrObj = Object.entries(obj)
-    const results = []
-    for (let i = 0; i < arrObj.length; i++) {
-        if (fields.includes(arrObj[i][0]) === false) {
-            results.push(arrObj[i]);
+    const arrObj = Object.keys(obj)
+    const result = {}
+    for (const key of arrObj) {
+        if (fields.includes(key) === false) {
+            result[key] = obj[key]
         }
     }
-    return Object.fromEntries(results);
+    return result;
 }
 

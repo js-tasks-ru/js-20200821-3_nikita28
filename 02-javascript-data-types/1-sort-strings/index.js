@@ -7,12 +7,12 @@
 export function sortStrings(arr, param = 'asc') {
    const collator = new Intl.Collator(undefined, { caseFirst: "upper" })
    const arrSort = [...arr]
-   if (param === 'asc') {
-      return arrSort.sort(collator.compare)
-   }
-   else {
-      return arrSort.sort((a, b) => collator.compare(b, a))
-   }
+   const direction = {
+      asc: 1,
+      desc: -1
+    };
+    
+    return arrSort.sort((a, b) => direction[param] * collator.compare(a, b));
 }
 
 
