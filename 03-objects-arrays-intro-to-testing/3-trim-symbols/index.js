@@ -8,7 +8,7 @@ export function trimSymbols(string, size = 3) {
     let countString = 0
     const result = []
     const str1 = string.split('')
-    if(size === 0){
+    if (size === 0) {
         return result.join('')
     }
     for (let i = 0; i < string.length; i++) {
@@ -23,4 +23,3 @@ export function trimSymbols(string, size = 3) {
     }
     return result.join('')
 }
-
