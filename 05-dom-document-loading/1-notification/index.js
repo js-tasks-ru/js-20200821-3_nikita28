@@ -1,10 +1,14 @@
 export default class NotificationMessage {
 
     element;
-    timer;
-    static checkShow = false;
+    static actualNotification;
 
     constructor(message, { duration = 0, type = '' } = {}) {
+
+        if (NotificationMessage.actualNotification) {
+            NotificationMessage.actualNotification.remove();
+        }
+
         this.message = message
         this.duration = duration
         this.type = type
@@ -12,11 +16,7 @@ export default class NotificationMessage {
         this.render()
     }
 
-    setShowed(showed) {
-        NotificationMessage.checkShow = showed;
-    }
-
-
+    
     getTimer() {
         return (this.duration / 1000)
     }
@@ -36,25 +36,22 @@ export default class NotificationMessage {
 
     render() {
         const element = document.createElement('div')
-        element.innerHTML = this.getTеmplate();
+        element.innerHTML = this.getTеmplate()
         this.element = element.firstElementChild
+        NotificationMessage.actualNotification = this.element;
+
     }
 
     show(target = document.body) {
         target.append(this.element);
-        if (NotificationMessage.checkShow) {
-            clearTimeout(this.timer);
-            this.remove();
-        }
-        this.setShowed(true);
         this.timerAdd();
     }
 
     timerAdd() {
-        this.timer = setTimeout(() => {
+        setTimeout(() => {
             this.remove();
-            this.setShowed(false);
         }, this.duration);
+
     }
 
     remove() {
