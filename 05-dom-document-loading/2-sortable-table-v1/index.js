@@ -14,9 +14,9 @@ export default class SortableTable {
     const element = document.createElement('div');
     element.innerHTML = this.template()
     this.element = element.firstElementChild;
-    this.sortArrow = this.SortArrowElement();
-    this.subElements = this.SubElements();
-    this.headerElements = this.SortableElements();
+    this.sortArrow = this.sortArrowElement();
+    this.subElements = this.subElements();
+    this.headerElements = this.sortableElements();
   }
 
   template() {
@@ -26,7 +26,7 @@ export default class SortableTable {
             ${this.headerHTML()}
           </div>
           <div data-element="body" class="sortable-table__body">
-            ${this.DataHTML(this.data)}
+            ${this.dataHTML(this.data)}
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ export default class SortableTable {
       .join('');
   }
 
-  SortArrowElement() {
+  sortArrowElement() {
     const element = document.createElement('div');
     element.innerHTML = `
       <span data-element="arrow" class="sortable-table__sort-arrow">
@@ -51,7 +51,7 @@ export default class SortableTable {
     return element.firstElementChild;
   }
 
-  DataHTML(body) {
+  dataHTML(body) {
     return body.map(row => `
       <a href="/products/${row.id}" class="sortable-table__row">
         ${this.rowHTML(row)}
@@ -70,10 +70,7 @@ export default class SortableTable {
       .join('');
   }
 
-
-
-
-  SortableElements() {
+  sortableElements() {
     const subElements = this.element.querySelectorAll('.sortable-table__header > .sortable-table__cell');
     return [...subElements].reduce((accum, subElement) => {
       const columnData = this.header.find(column => column.id === subElement.dataset.id);
@@ -97,7 +94,7 @@ export default class SortableTable {
     let sortedData = [];
 
     if (this.headerElements[arr].sortType === 'string') {
-      sortedData = [...this.data].sort((row1, row2) =>
+     sortedData = [...this.data].sort((row1, row2) =>
         direction[param] * row1[arr].localeCompare(row2[arr], ['ru'], { caseFirst: 'upper' })
       );
     }
@@ -107,12 +104,16 @@ export default class SortableTable {
         direction[param] * (row1[arr] - row2[arr])
       );
     }
-    this.subElements.body.innerHTML = this.DataHTML(sortedData);
-    this.headerElements[arr].element.dataset.order = param;
+    this.updateElements(arr, sortedData)
+  }
+
+  updateElements(arr, sortedData){
+    this.subElements.body.innerHTML = this.dataHTML(sortedData);
+    this.headerElements[arr].element.dataset.order = this.param;
     this.headerElements[arr].element.append(this.sortArrow);
   }
 
-  SubElements() {
+  subElements() {
     const subElements = this.element.querySelectorAll('[data-element]');
     return [...subElements].reduce((accum, subElement) => {
       accum[subElement.dataset.element] = subElement;
