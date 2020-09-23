@@ -27,7 +27,7 @@ export default class DoubleSlider {
         this.formatValue = formatValue
 
         this.render()
-        this.renderSelection()
+        this.renderSelect()
         this.initEventListeners()
     }
 
@@ -39,7 +39,7 @@ export default class DoubleSlider {
         this.subElements = this.getSubElements(this.element)
     }
 
-    renderSelection() {
+    renderSelect() {
         if (this.selected.from) {
             const styleLeft = (this.selected.from - this.min) / (this.max - this.min) * 100;
             this.subElements.thumbLeft.style.left = this.subElements.progress.style.left = `${styleLeft}%`;
